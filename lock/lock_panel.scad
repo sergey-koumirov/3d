@@ -3,11 +3,11 @@ use <hook.scad>
 
 module panel(
     width = 50,
-	deep = 30,
+	deep = 36,
 	height = 7,
 	belt = 35,
 	gap = 0.3,
-	wall = 1.6,
+	wall = 1.8,
 	hinge_hole = 3,
 	hinge_deep = 5,
 	latch_v_slip = 4,

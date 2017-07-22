@@ -28,7 +28,7 @@ module spring(
             }
             
             curly_cnt=3;
-            curly_h = (mortize_legth+latch_v_slip)/curly_cnt;
+            curly_h = (mortize_legth+latch_v_slip)/curly_cnt+wall/2;
             
             for(i=[0:curly_cnt-1]){
                 translate([
