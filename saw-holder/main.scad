@@ -3,7 +3,7 @@ use <plug.scad>
 xd=60;
 zd=25;
 
-d=6.5;
+d=6;
 
 thick = 4;
 
