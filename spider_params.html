@@ -1,0 +1,143 @@
+<html>
+<head>
+</head>
+<body>  
+	
+	
+	<svg height="800" width="800">
+	  <line id="plank1" x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
+
+	  <line id="plank3" x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
+	  <line id="plank2b" x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
+
+	  <line id="plank4" x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
+	  <line id="plank5" x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
+
+	  <circle id="point1" cx="0" cy="0" r="4"/>
+	  <circle id="point2" cx="0" cy="0" r="4"/>
+	  <circle id="point3" cx="0" cy="0" r="4"/>
+
+	  <circle id="move1" cx="0" cy="0" r="2"/>
+	  <circle id="move2" cx="0" cy="0" r="2"/>
+	  <circle id="move3" cx="0" cy="0" r="2"/>
+	  <circle id="move4" cx="0" cy="0" r="2"/>
+	  <circle id="move5" cx="0" cy="0" r="2"/>
+	  
+	  <circle id="m0" cx="0" cy="0" r="2" style="stroke:rgb(200,200,200);stroke-width:1;fill: none;"/>
+	  <circle id="m1" cx="0" cy="0" r="2" style="stroke:rgb(200,200,200);stroke-width:1;fill: none;"/>
+	  <circle id="m2" cx="0" cy="0" r="2" style="stroke:rgb(200,200,200);stroke-width:1;fill: none;"/>
+	  <circle id="m3" cx="0" cy="0" r="2" style="stroke:rgb(200,200,200);stroke-width:1;fill: none;"/>
+	  <circle id="m4" cx="0" cy="0" r="2" style="stroke:rgb(200,200,200);stroke-width:1;fill: none;"/>
+	  <circle id="m5" cx="0" cy="0" r="2" style="stroke:rgb(200,200,200);stroke-width:1;fill: none;"/>
+	  <circle id="m6" cx="0" cy="0" r="2" style="stroke:rgb(200,200,200);stroke-width:1;fill: none;"/>
+	  <circle id="m7" cx="0" cy="0" r="2" style="stroke:rgb(200,200,200);stroke-width:1;fill: none;"/>
+	  <circle id="m8" cx="0" cy="0" r="2" style="stroke:rgb(200,200,200);stroke-width:1;fill: none;"/>
+	  <circle id="m9" cx="0" cy="0" r="2" style="stroke:rgb(200,200,200);stroke-width:1;fill: none;"/>
+	  
+	</svg>
+
+
+<script>
+	function setCircle(c,x,y){
+		c.setAttribute('cx',x);
+		c.setAttribute('cy',y);	
+	}
+	
+	function setLine(l,x1,y1,x2,y2){
+		l.setAttribute('x1', x1);
+		l.setAttribute('y1', y1);
+		l.setAttribute('x2', x2);
+		l.setAttribute('y2', y2);
+	}
+	
+	function two(x1,y1,r1,x2,y2,r2){
+
+		var d = Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1)),
+  		    l = (r1*r1-r2*r2+d*d)/(2*d),
+		    h = Math.sqrt(r1*r1-l*l),
+		
+		    xx1=l/d*(x2-x1)+h/d*(y2-y1)+x1,
+		    xx2=l/d*(x2-x1)-h/d*(y2-y1)+x1,
+
+		    yy1=l/d*(y2-y1)-h/d*(x2-x1)+y1,
+     		yy2=l/d*(y2-y1)+h/d*(x2-x1)+y1;
+			
+		return [[xx1,yy1],[xx2,yy2]];			
+	}
+		
+	var plank1 = window.document.getElementById('plank1'),
+        plank2 = window.document.getElementById('plank2'),
+        plank3 = window.document.getElementById('plank3'),
+        plank2b = window.document.getElementById('plank2b'),
+        plank4 = window.document.getElementById('plank4'),
+        plank5 = window.document.getElementById('plank5'),
+     	point1 = window.document.getElementById('point1'),
+     	point2 = window.document.getElementById('point2'),
+        point3 = window.document.getElementById('point3'),
+        move1 = window.document.getElementById('move1'),
+        move2 = window.document.getElementById('move2'),        
+	    move3 = window.document.getElementById('move3'),
+	    move4 = window.document.getElementById('move4'),
+        move5 = window.document.getElementById('move5'),
+		t=0,
+	    xc=600, yc=300,
+	    x0=xc, y0=yc-60,
+	    x2=xc-100, y2=yc,
+	    x3=xc, y3=yc-120,
+	    
+	    r1 = 40;
+		r2a = 110,
+		r2b = 100,
+		r3 = 60,
+		r4  = 200,
+		r5a = 100,
+		r5b = 150,
+		mm = [];
+		
+	for(var i=0; i<=9;i++){
+		mm[i] = window.document.getElementById('m'+i);
+	};
+	setCircle(point1,x0,y0);
+	setCircle(point2,x2,y2);
+	setCircle(point3,x3,y3);
+	
+	window.setInterval(() => {
+
+        var m1x = x0+r1*Math.cos(2*Math.PI/360*t),
+		    m1y = y0+r1*Math.sin(2*Math.PI/360*t);
+			
+		setLine(plank1, x0,y0,m1x,m1y);
+
+        res1=two(m1x,m1y,r2a,x2,y2,r3)[1];
+		
+		var m2x = m1x + (res1[0]-m1x)*(r2a+r2b)/r2a,
+		    m2y = m1y + (res1[1]-m1y)*(r2a+r2b)/r2a;
+		
+		setLine(plank2b, m1x,m1y,m2x,m2y);
+		
+		setLine(plank3, x2,y2,res1[0],res1[1]);
+		
+		res2=two(m2x,m2y,r5a,x3,y3,r4)[0];
+				
+	    var m3x = res2[0] + (m2x-res2[0])*(r5a+r5b)/r5a,
+	        m3y = res2[1] + (m2y-res2[1])*(r5a+r5b)/r5a;
+				
+        setLine(plank4, x3,y3,res2[0],res2[1]);
+		setLine(plank5, m3x,m3y,res2[0],res2[1]);			
+				
+		setCircle(move1,m1x,m1y);
+		setCircle(move2,res1[0],res1[1]);
+		setCircle(move3,m2x,m2y);
+		setCircle(move4,res2[0],res2[1]);
+
+        if(t%20==0){
+			index = (t/20)%10;
+			setCircle(mm[index],m3x,m3y);
+        }
+		
+	    t=t+1;
+	}, 1000 / 60);
+</script>
+
+</body>
+</html>
